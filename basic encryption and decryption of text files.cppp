@@ -1,0 +1,57 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+
+using namespace std;
+
+// Function to encrypt/decrypt text using XOR
+void xorEncryptDecrypt(const string& inputFile, const string& outputFile, char key) {
+    ifstream in(inputFile);
+    if (!in) {
+        cerr << "Error: Could not open input file: " << inputFile << endl;
+        return;
+    }
+
+    ofstream out(outputFile);
+    if (!out) {
+        cerr << "Error: Could not open output file: " << outputFile << endl;
+        return;
+    }
+
+    char ch;
+    while (in.get(ch)) {
+        out.put(ch ^ key); // XOR each character with the key
+    }
+
+    in.close();
+    out.close();
+    cout << "File has been processed and saved to " << outputFile << endl;
+}
+
+int main() {
+    string inputFile, outputFile;
+    char key;
+    char choice;
+
+    cout << "Enter the name of the input file: ";
+    getline(cin, inputFile);
+
+    cout << "Enter the name of the output file: ";
+    getline(cin, outputFile);
+
+    cout << "Enter a single character encryption/decryption key: ";
+    cin >> key;
+
+    cout << "Do you want to (e)ncrypt or (d)ecrypt the file? ";
+    cin >> choice;
+
+    if (choice == 'e' || choice == 'E') {
+        xorEncryptDecrypt(inputFile, outputFile, key);
+    } else if (choice == 'd' || choice == 'D') {
+        xorEncryptDecrypt(inputFile, outputFile, key);
+    } else {
+        cerr << "Invalid option! Please choose 'e' for encryption or 'd' for decryption." << endl;
+    }
+
+    return 0;
+}
